@@ -1,6 +1,6 @@
 package com.project.user.manage.util;
 
-import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 @UtilityClass
 public class BindingResultUtil {
-    public static Map<String, Object> catchBadRequest(BindingResult bindingResult, String messageError, String successMessage, Object entity) {
+    public static Map<String, Object> catchBadRequest(BindingResult bindingResult, String messageError, String successMessage, @NotNull Object entity) {
         Map<String, Object> mapData = new HashMap<>();
         if (bindingResult.hasErrors()){
             mapData.put("mapResponseBadRequest", ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageError));

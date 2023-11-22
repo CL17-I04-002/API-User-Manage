@@ -1,5 +1,6 @@
 package com.project.user.manage.entity;
 
+import com.project.user.manage.util.BasicValidationGroup;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,13 +20,13 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @Column(name = "name", length = 50, nullable = false)
     private String name;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "enterprise_id", nullable = false, referencedColumnName = "id")
     private Enterprise enterprise;
@@ -33,7 +34,7 @@ public class Customer implements Serializable {
     private String email;
     @Column(name = "phone", length = 50, nullable = true)
     private String phone;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @Column(name = "address", length = 200, nullable = false)
     private String address;
 }

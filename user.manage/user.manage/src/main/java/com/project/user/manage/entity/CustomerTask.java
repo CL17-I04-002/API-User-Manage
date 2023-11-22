@@ -1,5 +1,6 @@
 package com.project.user.manage.entity;
 
+import com.project.user.manage.util.BasicValidationGroup;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,13 +23,13 @@ public class CustomerTask implements Serializable {
     private Long id;
     @Column(name = "description", length = 200, nullable = true)
     private String description;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @Column(name = "limit_date", nullable = false)
     private LocalDate limitDate;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @Column(name = "state", length = 15, nullable = false)
     private String state;
-    @NotNull
+    @NotNull(groups = BasicValidationGroup.class)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false, referencedColumnName = "id")
     private Customer customer;
