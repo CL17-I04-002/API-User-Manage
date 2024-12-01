@@ -3,6 +3,7 @@ package com.project.user.manage.security.auth;
 import com.project.user.manage.security.filter.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -39,7 +40,8 @@ public class SecurityConfig {
                         "swagger-ui/**",
                         "/webjars/**",
                         "/swagger-ui.html",
-                        "/h2-console/**"
+                        "/h2-console/**",
+                        "/api/v1/serviceApiKey/validate"
 
                 )
                 .permitAll()  // Permite el acceso sin autenticación

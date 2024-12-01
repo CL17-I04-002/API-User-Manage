@@ -31,7 +31,8 @@ public class AuthenticationFilter extends GenericFilterBean {
 
         if("POST".equals(httpRequest.getMethod()) && "/api/v1/serviceApiKey".equals(requestURI) ||
                 "GET".equals(httpRequest.getMethod()) && requestURI.matches("^/swagger-ui/.*") ||
-                "GET".equals(httpRequest.getMethod()) && requestURI.matches("^/v3/.*")){
+                "GET".equals(httpRequest.getMethod()) && requestURI.matches("^/v3/.*") ||
+                "POST".equals(httpRequest.getMethod()) && requestURI.matches("/api/v1/serviceApiKey/validate")){
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             try {
