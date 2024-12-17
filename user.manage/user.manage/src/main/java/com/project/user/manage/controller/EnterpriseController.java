@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -30,11 +31,14 @@ public class EnterpriseController {
         this.enterpriseRepository = enterpriseRepository;
     }
     @GetMapping
-    public ResponseEntity<List<Enterprise>> getAllEnterprise(
-            @Nullable @RequestParam() Integer page,
-            @Nullable @RequestParam() Integer size){
+    public ResponseEntity<?> getAllEnterprise(
+            @Nullable @RequestParam(required = false) Long id,
+            @Nullable @RequestParam(required = false) Integer page,
+            @Nullable @RequestParam(required = false) Integer size){
         List<Enterprise> lstEnterprise;
-        if(page == null || size == null){
+        if(id != null){
+            return ResponseEntity.status(HttpStatus.OK).body(enterpriseRepository.findById(id));
+        } else if(page == null || size == null){
             return ResponseEntity.status(HttpStatus.OK).body(enterpriseRepository.findAll());
         } else {
             Pageable pageable = PageRequest.of(page, size);
