@@ -28,11 +28,20 @@ public class CustomerController {
         this.customerRepository = customerRepository;
     }
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomer(
-            @Nullable @RequestParam() Integer size,
-            @Nullable @RequestParam() Integer page){
+    public ResponseEntity<?> getAllCustomer(
+            @Nullable @RequestParam(required = false) Long id,
+            @Nullable @RequestParam(required = false) Integer size,
+            @Nullable @RequestParam(required = false) Integer page){
         List<Customer> lstCustomer;
-        if(size == null || page == null){
+        if(id != null){
+            Customer customerFound = customerRepository.findById(id).orElseThrow();
+            if(customerFound != null){
+                return ResponseEntity.status(HttpStatus.OK).body(customerFound);
+            } else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+            }
+        }
+        else if(size == null || page == null){
             return ResponseEntity.status(HttpStatus.OK).body(customerRepository.findAll());
         } else {
             Pageable pageable = PageRequest.of(page, size);
