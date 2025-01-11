@@ -26,7 +26,7 @@ public class Customer implements Serializable {
     @NotNull(groups = BasicValidationGroup.class)
     @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
-    @NotNull(groups = BasicValidationGroup.class)
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "enterprise_id", nullable = false, referencedColumnName = "id")
     private Enterprise enterprise;

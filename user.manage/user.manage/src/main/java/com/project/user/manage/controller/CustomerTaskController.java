@@ -28,11 +28,20 @@ public class CustomerTaskController {
         this.customerTaskRepository = customerTaskRepository;
     }
     @GetMapping
-    public ResponseEntity<List<CustomerTask>> getAllCustomerTask(
+    public ResponseEntity<?> getAllCustomerTask(
+            @Nullable @RequestParam() Long id,
             @Nullable @RequestParam() Integer size,
             @Nullable @RequestParam() Integer page){
         List<CustomerTask> lstCustomerTask;
-        if(size == null || page == null){
+        if(id != null){
+            CustomerTask customerTaskFound = customerTaskRepository.findById(id).orElseThrow();
+            if(customerTaskFound != null){
+                return ResponseEntity.status(HttpStatus.OK).body(customerTaskFound);
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+            }
+        }
+        else if(size == null || page == null){
             return ResponseEntity.status(HttpStatus.OK).body(customerTaskRepository.findAll());
         } else {
             Pageable pageable = PageRequest.of(page, size);
@@ -63,6 +72,7 @@ public class CustomerTaskController {
                 customerTaskFound.setLimitDate(customerTask.getLimitDate());
                 customerTaskFound.setState(customerTask.getState());
                 customerTaskFound.setCustomer(customerTask.getCustomer());
+                customerTaskRepository.save(customerTask);
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontro el cliente tarea");
